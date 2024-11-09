@@ -8,6 +8,7 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 app.use(express.json());
+
 // Create HTTP server
 const server = http.createServer(app);
 
@@ -18,7 +19,7 @@ const io = new Server(server, {
     methods: ['GET', 'POST'],
   },
 });
-//mongodb+srv://Akhilaesh:meda.akhil@myatlasclusteredu.wv2czbn.mongodb.net/realtimeapp/?retryWrites=true&w=majority&appName=myAtlasClusterEDU
+
 // Connect to MongoDB
 mongoose.connect('mongodb+srv://Akhilaesh:meda.akhil@myatlasclusteredu.wv2czbn.mongodb.net/realtimeapp?retryWrites=true&w=majority', {
   useNewUrlParser: true,
@@ -27,7 +28,16 @@ mongoose.connect('mongodb+srv://Akhilaesh:meda.akhil@myatlasclusteredu.wv2czbn.m
 
 const db = mongoose.connection;
 
-// On successful connection
+// Define team schema and model
+const teamSchema = new mongoose.Schema({
+  teamName: String,
+  teamSize: Number,
+  domain: String,
+  problemStmt: String,
+});
+const Team = mongoose.model('teams', teamSchema);
+
+// On successful MongoDB connection
 db.once('open', () => {
   console.log('Connected to MongoDB');
 
@@ -43,12 +53,12 @@ db.once('open', () => {
   });
 });
 
-// API endpoint to fetch initial data
+// API endpoint to fetch initial data once
 app.get('/api/items', async (req, res) => {
   try {
     const items = await db.collection('teams').find().toArray();
     console.log('Fetched items:', items);
-    
+
     res.json(items);
   } catch (error) {
     console.error('Error fetching items:', error);
@@ -56,32 +66,27 @@ app.get('/api/items', async (req, res) => {
   }
 });
 
-
-
-
-const teamSchema = new mongoose.Schema({
-  teamName: String, 
-  teamSize: Number,
-  domain: String,
-  problemStmt: String,
-});
-const Team = mongoose.model('teams', teamSchema);
-
-// Define a route to insert data
+// Route to insert data
 app.post('/api/teams', async (req, res) => {
   try {
-      const newTeam = new Team(req.body);
-      console.log(req.body.teamName);
-      
-      await newTeam.save();
-      res.status(201).send("Team created successfully!");
+    const newTeam = new Team(req.body);
+    console.log(req.body.teamName);
+
+    await newTeam.save();
+    res.status(201).send("Team created successfully!");
   } catch (error) {
-      res.status(500).send(error.message);
+    res.status(500).send(error.message);
   }
 });
 
+// Clean up on socket disconnect
+io.on('connection', (socket) => {
+  console.log('A user connected:', socket.id);
 
-
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
+  });
+});
 
 // Start the server
 const PORT = 5000;

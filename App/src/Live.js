@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import io from 'socket.io-client';
 
 const socket = io.connect('http://localhost:5000');
@@ -57,15 +57,14 @@ function Live() {
   };
 
   return (
-    <div>
-      
-      <h1>Data</h1>
-      <p>Count: {data.length}</p>
+    <div className='liveMainDiv'>
+      <h1>Team Count: {data.length}</h1>
+      {/* <p>Count: {data.length}</p> */}
 
       <h2>Problem Counts by Domain</h2>
-      <ul>
+      <ul className='DomainCountDisplayul'>
         {Object.keys(domainCounts).map((domain) => (
-          <li key={domain}>
+          <li className='DomainCountDisplayli' key={domain}>
             {domain}: {domainCounts[domain]} problems
           </li>
         ))}

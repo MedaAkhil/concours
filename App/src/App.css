@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+html{
+  background-color: rgb(6, 16, 95);
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -35,4 +39,67 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+
+.MainDiv{
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  flex-direction: row;
+  margin: 20px;
+  align-items: center;
+  justify-content: center;
+}
+form{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: fit-content;
+  padding: 30px;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+form input, select, button{
+  border-radius: 20px;
+  padding: 3px 10px 3px 10px;
+}
+
+
+.appheader{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 75%;
+  margin: 20px 0 20px 0;
+  background-color:darkcyan;
+  border-radius: 30px;
+  padding: 0 20px 0 20px;
+  color: white;
+}
+
+.appmaindiv{
+  margin: 0 10% 0 10%;
+}
+
+.liveMainDiv{
+  margin: 20px;
+  width: 100%;
+}
+
+.DomainCountDisplayli{
+  color: white;
+  background-color: darkcyan;
+  list-style-type: None;
+  width: 45%;
+  padding: 15px;
+  border-radius: 30px;
+}
+.DomainCountDisplayul{
+  justify-content: space-around;
+  gap: 20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }

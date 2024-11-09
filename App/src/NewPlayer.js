@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import './App.css'
 const NewPlayer = () => {
     const [teamName, setTeamName] = useState('');
     const [teamSize, setTeamSize] = useState('');
@@ -63,23 +63,26 @@ const NewPlayer = () => {
     };
 
     return (
-        <div>
+        <div className='MainDiv'>
             <form onSubmit={insert}>
                 <input 
                     type="text" 
                     placeholder="Enter Team Name" 
                     value={teamName}
+                    required
                     onChange={(e) => setTeamName(e.target.value)}
                 />
                 <input 
                     type="number" 
-                    placeholder="Enter Team Size" 
+                    placeholder="Enter Team Size(3-4)" 
                     value={teamSize}
+                    required
                     onChange={(e) => setTeamSize(e.target.value)}
                 />
                 
                 {/* Domain Dropdown */}
                 <select 
+                required
                     value={domain} 
                     onChange={(e) => {
                         setDomain(e.target.value);
@@ -96,6 +99,7 @@ const NewPlayer = () => {
 
                 {/* Problem Statement Dropdown */}
                 <select 
+                required
                     value={problemStmt} 
                     onChange={(e) => setProblemStmt(e.target.value)} 
                     disabled={!domain} // Disable until a domain is selected
